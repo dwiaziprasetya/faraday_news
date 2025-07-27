@@ -1,29 +1,84 @@
+import 'package:faraday_news/controllers/news_controller.dart';
+import 'package:faraday_news/data/repository/faraday_news_repository.dart';
+import 'package:faraday_news/data/services/api_service.dart';
 import 'package:faraday_news/widgets/news_article_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class NewsView extends StatelessWidget {
+class NewsView extends StatefulWidget {
   const NewsView({super.key});
+
+  @override
+  State<NewsView> createState() => _NewsViewState();
+}
+
+class _NewsViewState extends State<NewsView> {
+  final controller = Get.put(
+    NewsController(repository: FaradayNewsRepository(ApiService())),
+  );
+
+  @override
+  void dispose() {
+    Get.delete<NewsController>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF09122C),
       appBar: AppBar(
-        title: Text('News', style: TextStyle(color: Colors.white)),
+        centerTitle: false,
+        title: Text(
+          'Faraday News',
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Color(0xFF09122C),
       ),
-      body: ListView.builder(
-        itemCount: 25,
-        itemBuilder: (context, index) {
-          return NewsArticleItemWidget(
-            imageUrl:
-                'https://emberhurst.com/cdn/shop/products/COMM1-SBPIC2_x606@2x.jpg?v=1666940194',
-            title: 'Is This the Future of Face Masks?',
-            subtitle: 'Vanessa Friedman',
-            timeAgo: '4h ago',
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(
+            child: CircularProgressIndicator(color: Colors.white),
           );
-        },
-      ),
+        }
+
+        if (controller.errorMessage.value.isNotEmpty) {
+          return Center(
+            child: Text(
+              controller.errorMessage.value,
+              style: const TextStyle(color: Colors.red),
+            ),
+          );
+        }
+
+        if (controller.newsResponse.value == null ||
+            controller.newsResponse.value!.articles.isEmpty) {
+          return const Center(
+            child: Text(
+              'No news available',
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        }
+
+        final articles = controller.newsResponse.value!.articles;
+
+        return ListView.builder(
+          itemCount: articles.length,
+          itemBuilder: (context, index) {
+            final article = articles[index];
+            return NewsArticleItemWidget(
+              imageUrl: article.urlToImage!,
+              title: article.title,
+              subtitle: article.description,
+              timeAgo: '4h ago',
+            );
+          },
+        );
+      }),
     );
   }
 }

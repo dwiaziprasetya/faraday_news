@@ -11,7 +11,7 @@ class ApiService {
     ),
   );
 
-  final apiKey = dotenv.env['API_KEY'];
+  final apiKey = dotenv.env['REPLACE_WITH_YOUR_API_KEY'];
 
   Future<NewsResponse> getTopHeadlines({String country = 'us'}) async {
     try {
