@@ -29,14 +29,23 @@ class _NewsViewState extends State<NewsView> {
       backgroundColor: Color(0xFF09122C),
       appBar: AppBar(
         centerTitle: false,
-        title: Text(
-          'Faraday News',
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
+        title: Row(
+          children: [
+            Image.asset('assets/images/logo.png', width: 40, height: 40),
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(
+                'Discover News',
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ),
-        backgroundColor: Color(0xFF09122C),
+        backgroundColor: const Color(0xFF09122C),
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -74,7 +83,7 @@ class _NewsViewState extends State<NewsView> {
               imageUrl: article.urlToImage!,
               title: article.title,
               subtitle: article.description,
-              timeAgo: '4h ago',
+              timeAgo: article.source!.name,
             );
           },
         );
