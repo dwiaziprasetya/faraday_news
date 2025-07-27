@@ -25,8 +25,8 @@ class NewsArticleItemWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
               imageUrl,
-              width: 80,
-              height: 80,
+              width: 140,
+              height: 100,
               fit: BoxFit.cover,
             ),
           ),

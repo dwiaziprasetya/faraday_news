@@ -17,7 +17,7 @@ class NewsView extends StatelessWidget {
         itemBuilder: (context, index) {
           return NewsArticleItemWidget(
             imageUrl:
-                'https://akcdn.detik.net.id/community/media/visual/2025/01/10/cristiano-ronaldo-2_169.jpeg?w=650',
+                'https://emberhurst.com/cdn/shop/products/COMM1-SBPIC2_x606@2x.jpg?v=1666940194',
             title: 'Is This the Future of Face Masks?',
             subtitle: 'Vanessa Friedman',
             timeAgo: '4h ago',
