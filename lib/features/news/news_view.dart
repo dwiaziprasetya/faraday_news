@@ -80,7 +80,6 @@ class _NewsViewState extends State<NewsView> {
           itemBuilder: (context, index) {
             final article = articles[index];
 
-            // Jika imageUrl null, kembalikan widget kosong
             if (article.urlToImage == null || article.urlToImage!.isEmpty) {
               return const SizedBox.shrink();
             }
