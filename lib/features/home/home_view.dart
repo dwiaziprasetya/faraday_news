@@ -67,7 +67,11 @@ class HomeView extends StatelessWidget {
               children: [
                 Text(
                   'TOP HEADLINES',
-                  style: TextStyle(color: Colors.white, fontSize: 12),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
                 ),
                 SizedBox(width: 8),
                 Icon(Icons.arrow_drop_down_sharp, color: Color(0xFF93da97)),

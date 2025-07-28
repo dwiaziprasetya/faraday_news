@@ -79,11 +79,17 @@ class _NewsViewState extends State<NewsView> {
           itemCount: articles.length,
           itemBuilder: (context, index) {
             final article = articles[index];
+
+            // Jika imageUrl null, kembalikan widget kosong
+            if (article.urlToImage == null || article.urlToImage!.isEmpty) {
+              return const SizedBox.shrink();
+            }
+
             return NewsArticleItemWidget(
               imageUrl: article.urlToImage!,
               title: article.title,
               subtitle: article.description,
-              timeAgo: article.source!.name,
+              timeAgo: article.source?.name ?? '',
             );
           },
         );
