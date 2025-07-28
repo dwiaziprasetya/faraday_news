@@ -1,4 +1,4 @@
-import 'package:faraday_news/features/home/home_view.dart';
+import 'package:faraday_news/features/news/news_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeView(),
+      home: NewsView(),
     );
   }
 }
