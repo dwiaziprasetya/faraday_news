@@ -9,4 +9,8 @@ class FaradayNewsRepository {
   Future<NewsResponse> fetchTopHeadlines({String country = 'us'}) {
     return api.getTopHeadlines(country: country);
   }
+
+  Future<NewsResponse> fetchEverything() {
+    return api.getEverything(query: 'physics');
+  }
 }

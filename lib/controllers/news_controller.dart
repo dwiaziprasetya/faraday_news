@@ -17,11 +17,11 @@ class NewsController extends GetxController {
     super.onInit();
   }
 
-  void fetchNews({String country = 'us'}) async {
+  void fetchNews() async {
     try {
       isLoading.value = true;
       errorMessage.value = '';
-      newsResponse.value = await repository.fetchTopHeadlines(country: country);
+      newsResponse.value = await repository.fetchEverything();
     } catch (e) {
       errorMessage.value = e.toString();
     } finally {

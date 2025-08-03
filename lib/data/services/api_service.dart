@@ -13,6 +13,23 @@ class ApiService {
 
   final apiKey = dotenv.env['REPLACE_WITH_YOUR_API_KEY'];
 
+  Future<NewsResponse> getEverything({required String query}) async {
+    try {
+      final response = await _dio.get(
+        '/everything',
+        queryParameters: {'q': query, 'apiKey': apiKey},
+      );
+
+      return NewsResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(e.response?.data['message'] ?? 'Failed to fetch news');
+      } else {
+        throw Exception('Network Error: ${e.message}');
+      }
+    }
+  }
+
   Future<NewsResponse> getTopHeadlines({String country = 'us'}) async {
     try {
       final response = await _dio.get(

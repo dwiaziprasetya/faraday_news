@@ -1,11 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:faraday_news/controllers/home_controller.dart';
+import 'package:faraday_news/data/repository/faraday_news_repository.dart';
+import 'package:faraday_news/data/services/api_service.dart';
+import 'package:faraday_news/widgets/news_article_item_loading.dart';
 import 'package:faraday_news/widgets/news_article_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final controller = Get.put(
+    HomeController(repository: FaradayNewsRepository(ApiService())),
+  );
+
+  @override
+  void dispose() {
+    Get.delete<HomeController>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +35,13 @@ class HomeView extends StatelessWidget {
         backgroundColor: const Color(0xFF09122C),
         body: Column(
           children: [
-            SizedBox(
-              height: 400,
-              child: Stack(
-                children: [
-                  CachedNetworkImage(
-                    imageUrl:
-                        'https://cdn.britannica.com/05/236505-050-17B6E34A/Elon-Musk-2022.jpg',
-                    width: double.infinity,
-                    height: 400,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Shimmer.fromColors(
+            Obx(() {
+              final article = controller.randomArticle;
+
+              if (article == null) {
+                return Stack(
+                  children: [
+                    Shimmer.fromColors(
                       baseColor: Colors.grey[500]!,
                       highlightColor: Colors.grey[300]!,
                       child: Container(
@@ -34,45 +50,98 @@ class HomeView extends StatelessWidget {
                         decoration: BoxDecoration(color: Colors.grey[300]),
                       ),
                     ),
-                  ),
-                  const Positioned(
-                    left: 16,
-                    bottom: 16,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Tesla will accept \nBitcoin as payment, \nElon Musk says.',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              const Color(0xFF09122C),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Text(
-                              'Read more',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return SizedBox(
+                height: 400,
+                child: Stack(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: article.urlToImage!,
+                      width: double.infinity,
+                      height: 400,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: Colors.grey[500]!,
+                        highlightColor: Colors.grey[300]!,
+                        child: Container(
+                          width: double.infinity,
+                          height: 400,
+                          decoration: BoxDecoration(color: Colors.grey[300]),
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              const Color(0xFF09122C),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 16,
+                      bottom: 16,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: Text(
+                              article.title,
+                              style: const TextStyle(
                                 color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(width: 8),
-                            Icon(
-                              Icons.arrow_right_alt_outlined,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          const SizedBox(height: 8),
+                          const Row(
+                            children: [
+                              Text(
+                                'Read more',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Icon(
+                                Icons.arrow_right_alt_outlined,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  ],
+                ),
+              );
+            }),
             const SizedBox(height: 16),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -91,21 +160,61 @@ class HomeView extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.only(bottom: 16),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return NewsArticleItemWidget(
-                    imageUrl:
-                        'https://www.blackxperience.com/assets/content/blackattitude/blackstyle/106434195-1595357993564-elon2.jpg',
-                    title:
-                        'Elon Musk is the worlds richest person. Is he giving his money away?',
-                    subtitle:
-                        'Elon Musk is the worlds richest person. Is he giving his money away? Elon Musk is the worlds richest person. Is he giving his money away?',
-                    timeAgo: '4h ago',
+              child: Obx(() {
+                if (controller.isLoading.value) {
+                  return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return NewsArticleItemLoading();
+                    },
                   );
-                },
-              ),
+                }
+
+                if (controller.errorMessage.value.isNotEmpty) {
+                  return Center(
+                    child: Text(
+                      controller.errorMessage.value,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  );
+                }
+
+                if (controller.newsResponse.value == null ||
+                    controller.newsResponse.value!.articles.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'No news available',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
+                }
+
+                final articles = controller.newsResponse.value!.articles;
+
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: articles.length,
+                  itemBuilder: (context, index) {
+                    final article = articles[index];
+
+                    if (article.urlToImage == null ||
+                        article.urlToImage!.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return GestureDetector(
+                      onTap: () => Get.toNamed('/detail'),
+                      child: NewsArticleItemWidget(
+                        imageUrl: article.urlToImage!,
+                        title: article.title,
+                        subtitle: article.description,
+                        timeAgo: article.source?.name ?? '',
+                      ),
+                    );
+                  },
+                );
+              }),
             ),
           ],
         ),
