@@ -14,7 +14,10 @@ class BottomNavBar extends StatelessWidget {
           Set<WidgetState> states,
         ) {
           if (states.contains(WidgetState.selected)) {
-            return const TextStyle(color: Colors.white);
+            return const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            );
           }
           return TextStyle(color: Colors.grey.shade400);
         }),
