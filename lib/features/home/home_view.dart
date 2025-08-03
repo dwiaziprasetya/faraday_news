@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faraday_news/widgets/news_article_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -17,11 +19,27 @@ class HomeView extends StatelessWidget {
               height: 400,
               child: Stack(
                 children: [
-                  Image.asset(
-                    'assets/images/sample_image.png',
+                  // Image.asset(
+                  //   'assets/images/sample_image.png',
+                  //   width: double.infinity,
+                  //   height: 400,
+                  //   fit: BoxFit.cover,
+                  // ),
+                  CachedNetworkImage(
+                    imageUrl:
+                        'https://cdn.britannica.com/05/236505-050-17B6E34A/Elon-Musk-2022.jpg',
                     width: double.infinity,
                     height: 400,
                     fit: BoxFit.cover,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: Colors.grey[500]!,
+                      highlightColor: Colors.grey[300]!,
+                      child: Container(
+                        width: double.infinity,
+                        height: 400,
+                        decoration: BoxDecoration(color: Colors.grey[300]),
+                      ),
+                    ),
                   ),
                   const Positioned(
                     left: 16,

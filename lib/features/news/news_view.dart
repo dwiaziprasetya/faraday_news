@@ -1,6 +1,7 @@
 import 'package:faraday_news/controllers/news_controller.dart';
 import 'package:faraday_news/data/repository/faraday_news_repository.dart';
 import 'package:faraday_news/data/services/api_service.dart';
+import 'package:faraday_news/widgets/news_article_item_loading.dart';
 import 'package:faraday_news/widgets/news_article_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,8 +50,11 @@ class _NewsViewState extends State<NewsView> {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(color: Colors.white),
+          return ListView.builder(
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return NewsArticleItemLoading();
+            },
           );
         }
 
