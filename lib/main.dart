@@ -1,9 +1,12 @@
-import 'package:faraday_news/features/news/news_view.dart';
+import 'package:faraday_news/controllers/base_controller.dart';
+import 'package:faraday_news/features/base/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
+  Get.put<BaseController>(BaseController());
   runApp(const MainApp());
 }
 
@@ -12,9 +15,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: NewsView(),
+      home: BaseView(),
     );
   }
 }
