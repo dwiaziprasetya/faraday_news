@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: '/detail',
+      initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => BaseView()),
         GetPage(name: '/detail', page: () => DetailView()),

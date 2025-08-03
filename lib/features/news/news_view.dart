@@ -88,11 +88,14 @@ class _NewsViewState extends State<NewsView> {
               return const SizedBox.shrink();
             }
 
-            return NewsArticleItemWidget(
-              imageUrl: article.urlToImage!,
-              title: article.title,
-              subtitle: article.description,
-              timeAgo: article.source?.name ?? '',
+            return GestureDetector(
+              onTap: () => Get.toNamed('/detail'),
+              child: NewsArticleItemWidget(
+                imageUrl: article.urlToImage!,
+                title: article.title,
+                subtitle: article.description,
+                timeAgo: article.source?.name ?? '',
+              ),
             );
           },
         );
