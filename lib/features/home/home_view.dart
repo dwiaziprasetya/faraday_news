@@ -19,12 +19,6 @@ class HomeView extends StatelessWidget {
               height: 400,
               child: Stack(
                 children: [
-                  // Image.asset(
-                  //   'assets/images/sample_image.png',
-                  //   width: double.infinity,
-                  //   height: 400,
-                  //   fit: BoxFit.cover,
-                  // ),
                   CachedNetworkImage(
                     imageUrl:
                         'https://cdn.britannica.com/05/236505-050-17B6E34A/Elon-Musk-2022.jpg',

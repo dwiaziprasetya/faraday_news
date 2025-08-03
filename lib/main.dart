@@ -1,5 +1,6 @@
 import 'package:faraday_news/controllers/base_controller.dart';
 import 'package:faraday_news/features/base/base_view.dart';
+import 'package:faraday_news/features/detail/detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -15,9 +16,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
+      initialRoute: '/detail',
+      getPages: [
+        GetPage(name: '/', page: () => BaseView()),
+        GetPage(name: '/detail', page: () => DetailView()),
+      ],
       debugShowCheckedModeBanner: false,
-      home: BaseView(),
+      home: const BaseView(),
     );
   }
 }
