@@ -143,20 +143,25 @@ class _HomeViewState extends State<HomeView> {
               );
             }),
             const SizedBox(height: 16),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'TOP HEADLINES',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Top Headlines',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                SizedBox(width: 8),
-                Icon(Icons.arrow_drop_down_sharp, color: Color(0xFF93da97)),
-              ],
+                  Text(
+                    'View all',
+                    style: TextStyle(fontSize: 14, color: Color(0xFF93da97)),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 8),
             Expanded(
