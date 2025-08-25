@@ -43,6 +43,7 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     Shimmer.fromColors(
                       baseColor: Colors.grey[500]!,
+                      period: Duration(milliseconds: 500),
                       highlightColor: Colors.grey[300]!,
                       child: Container(
                         width: double.infinity,
@@ -78,6 +79,7 @@ class _HomeViewState extends State<HomeView> {
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Shimmer.fromColors(
                         baseColor: Colors.grey[500]!,
+                        period: Duration(milliseconds: 500),
                         highlightColor: Colors.grey[300]!,
                         child: Container(
                           width: double.infinity,

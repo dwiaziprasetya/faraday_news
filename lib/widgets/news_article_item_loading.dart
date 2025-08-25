@@ -9,6 +9,7 @@ class NewsArticleItemLoading extends StatelessWidget {
     return Shimmer.fromColors(
       baseColor: Colors.grey[500]!,
       highlightColor: Colors.grey[300]!,
+      period: Duration(milliseconds: 500),
       child: Container(
         decoration: BoxDecoration(),
         margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
