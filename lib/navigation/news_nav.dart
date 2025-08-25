@@ -1,5 +1,5 @@
 import 'package:faraday_news/constant/nav_ids.dart';
-import 'package:faraday_news/features/news/news_view.dart';
+import 'package:faraday_news/modules/news/views/news_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
